@@ -43,10 +43,10 @@ function init () {
     delayLabel.style.display = delayInput.style.display = 'none';
 
     form.addEventListener('submit', e => e.preventDefault());
-    shrinkInput.addEventListener('click', toggleShrink);
-    namezipInput.addEventListener('click', toggleShrink);
+    shrinkInput.addEventListener('click', handleCheckboxes);
+    namezipInput.addEventListener('click', handleCheckboxes);
     addEventListeners();
-    toggleShrink();
+    handleCheckboxes();
 }
 
 const toBlob = (d) => new Promise((res) => d.toBlob(res));
@@ -57,7 +57,7 @@ function addEventListeners () {
     fileInput.addEventListener('change', handleFileChange);
 }
 
-function toggleShrink(e) {
+function handleCheckboxes(e) {
     if (e == null) {
         $('input#shrink').checked = false;
         $('label[for=shrink] > i.fa-check').style.display = 'none';
