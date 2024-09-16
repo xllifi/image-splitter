@@ -320,7 +320,9 @@ async function splitImages () {
     timeTaken.innerText = `Time taken: ${ Date.now() - startTime }ms`;
     submit.value = 'Split';
 
-    download.removeEventListener('click', function(){save(prefix)});
+    newDownload = download.cloneNode(true);
+    download.parentNode.replaceChild(newDownload, download);
+    download = newDownload;
     download.addEventListener('click', function(){save(prefix)});
 
     addEventListeners();
