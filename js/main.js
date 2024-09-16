@@ -59,12 +59,11 @@ function addEventListeners () {
 
 function handleCheckboxes(e) {
     if (e == null) {
-        $('input#shrink').checked = false;
-        $('label[for=shrink] > i.fa-check').style.display = 'none';
-        $('label[for=shrink] > i.fa-times').style.display = '';
-        $('input#namezip').checked = true;
-        $('label[for=namezip] > i.fa-times').style.display = 'none';
-        $('label[for=namezip] > i.fa-check').style.display = '';
+        document.querySelectorAll('input[type=checkbox]').forEach((e) => {
+            $(`input#${e.id}`).checked = (e.id == 'namezip' ? true : false);
+            $(`label[for=${e.id}] > i.fa-check`).style.display = (e.id == 'namezip' ? '' : 'none');
+            $(`label[for=${e.id}] > i.fa-times`).style.display = (e.id == 'namezip' ? 'none' : '');
+        });
         return;
     }
     var target = e.target;
