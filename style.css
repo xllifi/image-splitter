@@ -124,12 +124,12 @@ label {
     font-size: 0.95rem;
 }
 
-input#shrink {
+input:is(#shrink, #namezip) {
     opacity: 0;
     position: absolute;
 }
 
-label[for="shrink"] {
+label:is([for="shrink"], [for="namezip"]) {
     cursor: pointer;
     user-select: none;
 }

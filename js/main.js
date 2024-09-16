@@ -24,13 +24,12 @@ function init () {
     txt = $('textarea');
     previewDiv = $('div');
     prev = $('td#preview');
-    shrinkCheck = $('i.fa-check');
-    shrinkCross = $('i.fa-times');
     fileInfo = $('em');
 
     form = $('form');
     prefixInput = $('input#prefix');
     shrinkInput = $('input#shrink');
+    namezipInput = $('input#namezip');
     delayInput = $('input#delay');
     fileInput = $('input#file');
     sizeInput = $('input#size');
@@ -45,6 +44,7 @@ function init () {
 
     form.addEventListener('submit', e => e.preventDefault());
     shrinkInput.addEventListener('click', toggleShrink);
+    namezipInput.addEventListener('click', toggleShrink);
     addEventListeners();
     toggleShrink();
 }
@@ -57,8 +57,21 @@ function addEventListeners () {
     fileInput.addEventListener('change', handleFileChange);
 }
 
-function toggleShrink () {
-    if (shrinkInput.checked) {
+function toggleShrink(e) {
+    if (e == null) {
+        $('input#shrink').checked = false;
+        $('label[for=shrink] > i.fa-check').style.display = 'none';
+        $('label[for=shrink] > i.fa-times').style.display = '';
+        $('input#namezip').checked = true;
+        $('label[for=namezip] > i.fa-times').style.display = 'none';
+        $('label[for=namezip] > i.fa-check').style.display = '';
+        return;
+    }
+    var target = e.target;
+    var shrinkCheck = $(`label[for=${target.id}] > i.fa-check`);
+    var shrinkCross = $(`label[for=${target.id}] > i.fa-times`);
+
+    if (target.checked) {
         shrinkCheck.style.display = '';
         shrinkCross.style.display = 'none';
     } else {
@@ -74,8 +87,13 @@ function handleFileChange () {
     delayLabel.style.display = delayInput.style.display = file.name.endsWith('.gif') ? '' : 'none';
 }
 
-function save () {
-    saveAs(currentZip, 'emojis.zip');
+function save (prefix) {
+    console.log("called save");
+    if (namezipInput.checked) {
+        saveAs(currentZip, `${prefix}.zip`);
+    } else {
+        saveAs(currentZip, 'emojis.zip');
+    }
 }
 
 function resize (img, w, h) {
@@ -302,8 +320,8 @@ async function splitImages () {
     timeTaken.innerText = `Time taken: ${ Date.now() - startTime }ms`;
     submit.value = 'Split';
 
-    download.removeEventListener('click', save);
-    download.addEventListener('click', save);
+    download.removeEventListener('click', function(){save(prefix)});
+    download.addEventListener('click', function(){save(prefix)});
 
     addEventListeners();
 }
